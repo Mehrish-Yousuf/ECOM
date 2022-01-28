@@ -29,7 +29,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "orders")
+    @OneToOne(mappedBy = "order")
     private Payment payment;
 
     public Order() {

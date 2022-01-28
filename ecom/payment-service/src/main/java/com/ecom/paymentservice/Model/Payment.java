@@ -2,6 +2,8 @@ package com.ecom.paymentservice.Model;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name = "orders")
 public class Payment {
 
     @Id
@@ -19,6 +21,11 @@ public class Payment {
     @OneToOne
     @JoinColumn(name="order_id")
     private Order order;
+
+    public Payment() {
+
+    }
+
 
     public Long getId() {
         return id;
