@@ -1,5 +1,6 @@
 package com.ecom.productcatalog.service;
 
+import com.ecom.productcatalog.DTO.ProductDTO;
 import com.ecom.productcatalog.entity.Product;
 import com.ecom.productcatalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public ProductDTO getProductById(Long id) {
+        ProductDTO productDTO = new ProductDTO();
         Optional<Product> productTemp = productRepository.findById(id);
+        Product product = productTemp.get();
+        if(product!=null){
+            productDTO.setId(product.getId());
+            productDTO.setProductName(product.getProductName());
+            productDTO.setCategory(product.getCategory());
+            productDTO.setProductDescription(product.getDescription());
+            productDTO.setPrice(product.getPrice());
+        }
+        return productDTO;
 
-        return productTemp.get();
     }
 
     @Override

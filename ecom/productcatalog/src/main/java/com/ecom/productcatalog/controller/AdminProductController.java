@@ -1,5 +1,6 @@
 package com.ecom.productcatalog.controller;
 
+import com.ecom.productcatalog.DTO.ProductDTO;
 import com.ecom.productcatalog.entity.Product;
 import com.ecom.productcatalog.http.header.HeaderGenerator;
 import com.ecom.productcatalog.service.ProductService;
@@ -50,7 +51,7 @@ public class AdminProductController {
     
     @DeleteMapping(value = "/delete/{id}")
     private ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id){
-    	Product product = productService.getProductById(id);
+    	ProductDTO product = productService.getProductById(id);
     	if(product != null) {
     		try {
     			productService.deleteProduct(id);

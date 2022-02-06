@@ -29,9 +29,6 @@ public class Product {
     @NotNull
     private String category;
 
-    @Column (name = "availability")
-    @NotNull
-    private int availability;
 
 	public Product() {
 
@@ -77,11 +74,5 @@ public class Product {
 		this.category = category;
 	}
 
-	public int getAvailability() {
-		return availability;
-	}
 
-	public void setAvailability(int availability) {
-		this.availability = availability;
-	} 
 }

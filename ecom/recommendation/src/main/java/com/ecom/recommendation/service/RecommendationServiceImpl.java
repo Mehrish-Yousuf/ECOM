@@ -5,6 +5,7 @@ import com.ecom.recommendation.repository.RecommendationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,8 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Recommendation> getAllRecommendationByProductName(String productName) {
-        return recommendationRepository.findAllRatingByProductName(productName);
+        //return recommendationRepository.findAllRatingByProductName(productName);
+        return new ArrayList<>();
     }
 
     @Override

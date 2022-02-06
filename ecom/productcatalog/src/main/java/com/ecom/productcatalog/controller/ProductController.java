@@ -1,5 +1,6 @@
 package com.ecom.productcatalog.controller;
 
+import com.ecom.productcatalog.DTO.ProductDTO;
 import com.ecom.productcatalog.entity.Product;
 import com.ecom.productcatalog.http.header.HeaderGenerator;
 import com.ecom.productcatalog.service.ProductService;
@@ -49,15 +50,15 @@ public class ProductController {
     }
 
     @GetMapping (value = "/productById/{id}")
-    public ResponseEntity<Product> getOneProductById(@PathVariable ("id") long id){
-        Product product =  productService.getProductById(id);
+    public ResponseEntity<ProductDTO> getOneProductById(@PathVariable ("id") long id){
+        ProductDTO product =  productService.getProductById(id);
         if(product != null) {
-        	return new ResponseEntity<Product>(
+        	return new ResponseEntity<ProductDTO>(
         			product,
         			headerGenerator.getHeadersForSuccessGetMethod(),
         			HttpStatus.OK);
         }
-        return new ResponseEntity<Product>(
+        return new ResponseEntity<ProductDTO>(
         		headerGenerator.getHeadersForError(),
         		HttpStatus.NOT_FOUND);
     }

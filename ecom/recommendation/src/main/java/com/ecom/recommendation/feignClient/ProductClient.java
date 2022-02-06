@@ -1,6 +1,6 @@
 package com.ecom.recommendation.feignClient;
 
-import com.ecom.recommendation.model.Product;
+import com.ecom.recommendation.DTO.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ProductClient {
 
     @GetMapping (value = "catalog/productById/{id}")
-    public Product getProductById(@PathVariable(value = "id") Long productId);
+    public ProductDTO getProductById(@PathVariable(value = "id") Long productId);
 }

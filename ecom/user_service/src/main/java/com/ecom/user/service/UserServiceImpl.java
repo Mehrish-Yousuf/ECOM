@@ -1,5 +1,6 @@
 package com.ecom.user.service;
 
+import com.ecom.user.DTO.UserDTO;
 import com.ecom.user.entity.User;
 import com.ecom.user.entity.UserRole;
 import com.ecom.user.repository.UserRepository;
@@ -27,9 +28,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.get();
+    public UserDTO getUserById(Long id) {
+        UserDTO userDTO = new UserDTO();
+        Optional<User> userOpt = userRepository.findById(id);
+        User user = userOpt.get();
+        if(user!=null){
+            userDTO.setId(user.getId());
+            userDTO.setUserName(user.getUserName());
+            userDTO.setUserPassword(user.getUserPassword());
+            userDTO.setActive(user.getActive());
+
+        }
+        return userDTO;
     }
 
     @Override

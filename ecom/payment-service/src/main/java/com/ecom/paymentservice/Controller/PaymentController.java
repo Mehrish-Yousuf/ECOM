@@ -1,9 +1,9 @@
 package com.ecom.paymentservice.Controller;
 
+import com.ecom.paymentservice.DTO.OrderDTO;
 import com.ecom.paymentservice.DTO.PaymentDTO;
-import com.ecom.paymentservice.Model.Order;
+import com.ecom.paymentservice.DTO.UserDTO;
 import com.ecom.paymentservice.Model.Payment;
-import com.ecom.paymentservice.Model.User;
 import com.ecom.paymentservice.Service.PaymentService;
 import com.ecom.paymentservice.feignclient.OrderClient;
 import com.ecom.paymentservice.feignclient.UserClient;
@@ -29,10 +29,10 @@ public class PaymentController {
     private UserClient userClient;
 
     @Autowired
-    PaymentService paymentService;
+    private PaymentService paymentService;
 
     @Autowired
-    HeaderGenerator headerGenerator;
+    private HeaderGenerator headerGenerator;
 
 
 
@@ -40,10 +40,10 @@ public class PaymentController {
     ResponseEntity<Payment>  savePayment(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request) {
 
         Payment payment = new Payment();
-        User user = userClient.getUserById(paymentDTO.getUserId());
-        Order order = orderClient.getOrderById(paymentDTO.getOrderId());
-        payment.setUser(user);
-        payment.setOrder(order);
+        UserDTO user = userClient.getUserById(paymentDTO.getUserId());
+        OrderDTO order = orderClient.getOrderById(paymentDTO.getOrderId());
+        payment.setUserId(user.getId());
+        payment.setOrderId(order.getId());
         payment.setPaymentMode(paymentDTO.getPaymentMode());
         payment.setTotalAmount(paymentDTO.getAmount());
 

@@ -1,7 +1,7 @@
 package com.ecom.paymentservice.feignclient;
 
 
-import com.ecom.paymentservice.Model.Order;
+import com.ecom.paymentservice.DTO.OrderDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface OrderClient {
 
     @GetMapping(value = "order/getbyId/{id}")
-    public Order getOrderById(@PathVariable(value = "id") Long orderId);
+    public OrderDTO getOrderById(@PathVariable(value = "id") Long orderId);
 
 }

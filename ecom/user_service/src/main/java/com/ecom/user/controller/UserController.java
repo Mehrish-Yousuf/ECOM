@@ -1,5 +1,6 @@
 package com.ecom.user.controller;
 
+import com.ecom.user.DTO.UserDTO;
 import com.ecom.user.entity.User;
 import com.ecom.user.http.header.HeaderGenerator;
 import com.ecom.user.service.UserService;
@@ -50,16 +51,16 @@ public class UserController {
     }
 
     @GetMapping (value = "/getById/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id){
+        UserDTO user = userService.getUserById(id);
         if(user != null) {
-    		return new ResponseEntity<User>(
+    		return new ResponseEntity<UserDTO>(
     				user,
     				headerGenerator.
     				getHeadersForSuccessGetMethod(),
     				HttpStatus.OK);
     	}
-        return new ResponseEntity<User>(
+        return new ResponseEntity<UserDTO>(
         		headerGenerator.getHeadersForError(),
         		HttpStatus.NOT_FOUND);
     }

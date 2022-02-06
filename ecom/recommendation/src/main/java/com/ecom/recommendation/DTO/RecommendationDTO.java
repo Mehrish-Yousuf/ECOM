@@ -4,6 +4,7 @@ public class RecommendationDTO {
     Long userId;
     Long productId;
     int rating;
+    String text;
 
     public Long getUserId() {
         return userId;
@@ -27,5 +28,13 @@ public class RecommendationDTO {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

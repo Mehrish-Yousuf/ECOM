@@ -1,13 +1,13 @@
 package com.ecom.recommendation.controller;
 
 
+import com.ecom.recommendation.DTO.ProductDTO;
 import com.ecom.recommendation.DTO.RecommendationDTO;
+import com.ecom.recommendation.DTO.UserDTO;
 import com.ecom.recommendation.feignClient.ProductClient;
 import com.ecom.recommendation.feignClient.UserClient;
 import com.ecom.recommendation.http.header.HeaderGenerator;
-import com.ecom.recommendation.model.Product;
 import com.ecom.recommendation.model.Recommendation;
-import com.ecom.recommendation.model.User;
 import com.ecom.recommendation.service.RecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequestMapping("/recommendation")
@@ -33,19 +32,19 @@ public class RecommendationController {
     @Autowired
     private HeaderGenerator headerGenerator;
 
-    @GetMapping(value = "/getByProductName")
-    private ResponseEntity<List<Recommendation>> getAllRating(@RequestParam("name") String productName){
-        List<Recommendation> recommendations = recommendationService.getAllRecommendationByProductName(productName);
-        if(!recommendations.isEmpty()) {
-        	return new ResponseEntity<List<Recommendation>>(
-        		recommendations,
-        		headerGenerator.getHeadersForSuccessGetMethod(),
-        		HttpStatus.OK);
-        }
-        return new ResponseEntity<List<Recommendation>>(
-        		headerGenerator.getHeadersForError(),
-        		HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping(value = "/getByProductName")
+//    private ResponseEntity<List<Recommendation>> getAllRating(@RequestParam("name") String productName){
+//        List<Recommendation> recommendations = recommendationService.getAllRecommendationByProductName(productName);
+//        if(!recommendations.isEmpty()) {
+//        	return new ResponseEntity<List<Recommendation>>(
+//        		recommendations,
+//        		headerGenerator.getHeadersForSuccessGetMethod(),
+//        		HttpStatus.OK);
+//        }
+//        return new ResponseEntity<List<Recommendation>>(
+//        		headerGenerator.getHeadersForError(),
+//        		HttpStatus.NOT_FOUND);
+////    }
     
     @PostMapping(value = "/save")
     private ResponseEntity<Recommendation> saveRecommendations(
@@ -53,15 +52,16 @@ public class RecommendationController {
             HttpServletRequest request){
 
     	
-    	Product product = productClient.getProductById(recommendationDTO.getProductId());
-		User user = userClient.getUserById(recommendationDTO.getUserId());
+    	ProductDTO product = productClient.getProductById(recommendationDTO.getProductId());
+		UserDTO user = userClient.getUserById(recommendationDTO.getUserId());
     	
 		if(product != null && user != null) {
 			try {
 				Recommendation recommendation = new Recommendation();
-				recommendation.setProduct(product);
-				recommendation.setUser(user);
+				recommendation.setProductId(product.getId());
+				recommendation.setProductId(user.getId());
 				recommendation.setRating(recommendationDTO.getRating());
+				recommendation.setText(recommendationDTO.getText());
 				recommendationService.saveRecommendation(recommendation);
 				return new ResponseEntity<Recommendation>(
 						recommendation,

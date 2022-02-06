@@ -12,23 +12,18 @@ public class Recommendation {
     @Column (name = "rating")
     private int rating;
 
-    @ManyToOne
-    @JoinColumn (name = "product_id")
-    private Product product;
+    @Column(name = "product_id")
+    private Long productId;
 
-    @ManyToOne
-    @JoinColumn (name = "user_id")
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name="text")
+    private String text;
     
     public Recommendation() {
 	
 	}
-
-	public Recommendation(int rating, Product product, User user) {
-        this.rating = rating;
-        this.product = product;
-        this.user = user;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -46,19 +41,27 @@ public class Recommendation {
         this.rating = rating;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

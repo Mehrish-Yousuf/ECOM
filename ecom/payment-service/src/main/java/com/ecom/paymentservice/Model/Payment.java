@@ -3,24 +3,16 @@ package com.ecom.paymentservice.Model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "payments")
 public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Double totalAmount;
-
     private String paymentMode;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name="order_id")
-    private Order order;
+    private Long userId;
+    private Long orderId;
 
     public Payment() {
 
@@ -51,19 +43,19 @@ public class Payment {
         this.paymentMode = paymentMode;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Order getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }
