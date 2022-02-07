@@ -27,12 +27,13 @@ public class ProductInventory {
     @NotNull
     private BigDecimal price;
 
-    @Column (name = "description")
-    private String description;
-
     @Column (name = "category")
     @NotNull
     private String category;
+
+	@Column (name = "availability")
+	@NotNull
+	private int availability;
 
 
 	public ProductInventory() {
@@ -55,20 +56,20 @@ public class ProductInventory {
 		this.productName = productName;
 	}
 
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getCategory() {
@@ -79,11 +80,11 @@ public class ProductInventory {
 		this.category = category;
 	}
 
-	public String getProductCode() {
-		return productCode;
+	public int getAvailability() {
+		return availability;
 	}
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
+	public void setAvailability(int availability) {
+		this.availability = availability;
 	}
 }

@@ -1,12 +1,8 @@
 package com.ecom.paymentservice.Controller;
 
-import com.ecom.paymentservice.DTO.OrderDTO;
 import com.ecom.paymentservice.DTO.PaymentDTO;
-import com.ecom.paymentservice.DTO.UserDTO;
 import com.ecom.paymentservice.Model.Payment;
 import com.ecom.paymentservice.Service.PaymentService;
-import com.ecom.paymentservice.feignclient.OrderClient;
-import com.ecom.paymentservice.feignclient.UserClient;
 import com.ecom.paymentservice.header.HeaderGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PaymentController {
 
     @Autowired
-    private OrderClient orderClient;
-
-    @Autowired
-    private UserClient userClient;
-
-    @Autowired
     private PaymentService paymentService;
 
     @Autowired
@@ -38,21 +28,14 @@ public class PaymentController {
 
     @PostMapping("/add")
     ResponseEntity<Payment>  savePayment(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request) {
-
-        Payment payment = new Payment();
-        UserDTO user = userClient.getUserById(paymentDTO.getUserId());
-        OrderDTO order = orderClient.getOrderById(paymentDTO.getOrderId());
-        payment.setUserId(user.getId());
-        payment.setOrderId(order.getId());
-        payment.setPaymentMode(paymentDTO.getPaymentMode());
-        payment.setTotalAmount(paymentDTO.getAmount());
+        Payment payment = null;
 
         try {
-            paymentService.savePayment(payment);
+            payment = paymentService.savePayment(paymentDTO);
 
             return new ResponseEntity<Payment>(
                     payment,
-                    headerGenerator.getHeadersForSuccessPostMethod(request, payment.getId()),
+                    headerGenerator.getHeadersForSuccessGetMethod(),
                     HttpStatus.CREATED);
         } catch (Exception ex) {
             ex.printStackTrace();

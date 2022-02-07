@@ -53,6 +53,8 @@ public class CartServiceImpl implements CartService {
 
         }
 
+        cartRepository.save(cart);
+
 
     }
 
@@ -62,6 +64,8 @@ public class CartServiceImpl implements CartService {
         Set<ItemDTO> itemDTOSet = new HashSet<>();
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
         Cart cart = cartOpt.get();
+        cartDTO.setCrtId(cart.getId());
+
 
         if (cart != null) {
             Set<Item> itemsSet = itemRepository.findByCartId(cart.getId());
@@ -75,7 +79,6 @@ public class CartServiceImpl implements CartService {
                 itemDTOSet.add(itemDTO);
 
             }
-
             cartDTO.setItemDTOList(itemDTOSet);
 
         }
@@ -144,7 +147,7 @@ public class CartServiceImpl implements CartService {
     }
 
     ProductDTO getProductDetails(Long productId){
-        String productUrl = "http://localhost:4000/catalog/productById/{id}";
+        String productUrl = "http://localhost:2000/catalog/productById/{id}";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity entity = new HttpEntity<>(httpHeaders);

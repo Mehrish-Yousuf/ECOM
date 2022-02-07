@@ -37,15 +37,15 @@ public class CartController {
 
     @PostMapping(value = "/addItems")
     public ResponseEntity<Cart> addItemToCart(@RequestBody CartDTO cartDto) {
-        CartDTO cartDTO = null;
+
         Cart cart = null;
         if (cartDto.getCrtId() != null) {
-            cartDTO = cartService.getCart(cartDto.getCrtId());
+            cartDto = cartService.getCart(cartDto.getCrtId());
             if (cartDto != null) {
                 if (!cartDto.getItemDTOList().isEmpty()) {
                     for (ItemDTO itemDTO : cartDto.getItemDTOList()) {
-                        if (cartService.checkIfItemIsExist(cartDTO.getCrtId(), itemDTO.getProductId())) {
-                            cartService.changeItemQuantity(cartDTO.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
+                        if (cartService.checkIfItemIsExist(cartDto.getCrtId(), itemDTO.getProductId())) {
+                            cartService.changeItemQuantity(cartDto.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
                         }
                     }
                 }
@@ -81,8 +81,8 @@ public class CartController {
                 HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteCart(@RequestParam Long cartId) {
+    @DeleteMapping("/delete/{cartId}")
+    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId) {
         cartService.deleteCart(cartId);
         return new ResponseEntity<Void>(headerGenerator.getHeadersForSuccessGetMethod(), HttpStatus.OK);
     }

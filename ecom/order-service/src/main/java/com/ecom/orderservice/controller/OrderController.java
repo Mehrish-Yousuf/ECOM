@@ -65,7 +65,7 @@ public class OrderController {
     }
 
     @GetMapping (value = "/getbyId/{id}")
-    public ResponseEntity<OrderDTO> getOneProductById(@PathVariable ("id") long id){
+    public ResponseEntity<OrderDTO> getOneProductById(@PathVariable long id){
         OrderDTO order =  orderService.getOrderDetails(id);
         if(order != null) {
             return new ResponseEntity<OrderDTO>(
