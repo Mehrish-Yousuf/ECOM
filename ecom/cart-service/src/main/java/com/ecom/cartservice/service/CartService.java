@@ -1,6 +1,8 @@
 package com.ecom.cartservice.service;
 
 import com.ecom.cartservice.DTO.CartDTO;
+import com.ecom.cartservice.DTO.ItemDTO;
+import com.ecom.cartservice.domain.Item;
 
 
 public interface CartService {
@@ -18,4 +20,6 @@ public interface CartService {
     //public List<Item> getAllItemsFromCart(Long cartId);
 
     public void deleteCart(Long cartId);
+
+    Item addItemToExistingCart(ItemDTO itemDTO, Long cartId);
 }

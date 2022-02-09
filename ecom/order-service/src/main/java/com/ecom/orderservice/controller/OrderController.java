@@ -78,24 +78,43 @@ public class OrderController {
                 HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping (value = "/cancel/{id}")
-    public ResponseEntity<Boolean> cancelOrder(@PathVariable ("id") long id){
-        OrderDTO order =  orderService.getOrderDetails(id);
-        if(order!=null){
-            order.setStatus("CANCELLED");
-            //orderService.saveOrder(order);
+    @PostMapping(value = "/changeStatus")
+    public ResponseEntity<Boolean> changeStatus(@RequestParam("status") String status, @RequestParam("orderId") Long orderId){
+        Boolean isStatusChanged = false;
+        isStatusChanged = orderService.changeStatus(status, orderId);
+        if(isStatusChanged){
+            return new ResponseEntity<Boolean>(isStatusChanged,
+                    headerGenerator.getHeadersForSuccessGetMethod(),
+                    HttpStatus.OK);
+
+        }
+        else {
+            return new ResponseEntity<Boolean>(
+                    headerGenerator.getHeadersForError(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
-        if(order != null) {
-            return new ResponseEntity<Boolean>(
-                    true,
-                    headerGenerator.getHeadersForSuccessGetMethod(),
-                    HttpStatus.OK);
+
+    }
+
+    @PostMapping (value = "/cancel/{id}")
+    public ResponseEntity<Boolean> cancelOrder(@PathVariable ("id") long id){
+        Boolean isStatusChanged = false;
+        OrderDTO order =  orderService.getOrderDetails(id);
+        if(order!=null){
+            isStatusChanged = orderService.changeStatus("CANCELLED", order.getId() );
+            if(isStatusChanged){
+                return new ResponseEntity<Boolean>(
+                        true,
+                        headerGenerator.getHeadersForSuccessGetMethod(),
+                        HttpStatus.OK);
+            }
+
         }
         return new ResponseEntity<Boolean>(
                 headerGenerator.getHeadersForError(),
-                HttpStatus.NOT_FOUND);
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

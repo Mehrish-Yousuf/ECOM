@@ -32,11 +32,25 @@ public class OrderServiceImpl implements OrderService {
             orderDTO.setStatus(order.getStatus());
             orderDTO.setTotal(order.getTotal());
             orderDTO.setUserId(order.getUserId());
-
         }
 
         return orderDTO;
 
 
+    }
+
+    @Override
+    public Boolean changeStatus(String status, Long orderId) {
+
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        Order order = orderOptional.get();
+        if(order!=null){
+            order.setStatus(status);
+            orderRepository.save(order);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

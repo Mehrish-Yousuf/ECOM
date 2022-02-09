@@ -32,7 +32,6 @@ public class PaymentController {
 
         try {
             payment = paymentService.savePayment(paymentDTO);
-
             return new ResponseEntity<Payment>(
                     payment,
                     headerGenerator.getHeadersForSuccessGetMethod(),

@@ -158,4 +158,24 @@ public class CartServiceImpl implements CartService {
         System.out.println(response.getBody());
         return response.getBody();
     }
+
+
+    @Override
+    public Item addItemToExistingCart(ItemDTO itemDTO, Long cartId) {
+        Cart cart = cartRepository.getById(cartId);
+        Item item = new Item();
+        if(cart!=null){
+
+            ProductDTO productDTO = getProductDetails(itemDTO.getProductId());
+            if(productDTO!=null){
+                item.setProductId(itemDTO.getProductId());
+                item.setQuantity(itemDTO.getQuantity());
+                item.setSubTotal(CartUtilities.getSubTotalForItem(productDTO.getPrice(), item.getQuantity()));
+                item.setCart(cart);
+                item = itemRepository.save(item);
+            }
+        }
+
+        return item;
+    }
 }

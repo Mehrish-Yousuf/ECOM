@@ -8,4 +8,6 @@ public interface OrderService {
     public Order saveOrder(Order order);
 
     OrderDTO getOrderDetails(Long orderId);
+    Boolean changeStatus(String status, Long orderId);
+
 }

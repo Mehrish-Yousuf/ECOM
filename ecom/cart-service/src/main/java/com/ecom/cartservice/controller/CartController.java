@@ -3,6 +3,7 @@ package com.ecom.cartservice.controller;
 import com.ecom.cartservice.DTO.CartDTO;
 import com.ecom.cartservice.DTO.ItemDTO;
 import com.ecom.cartservice.domain.Cart;
+import com.ecom.cartservice.domain.Item;
 import com.ecom.cartservice.header.HeaderGenerator;
 import com.ecom.cartservice.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     @Autowired
-    CartService cartService;
+    private CartService cartService;
 
 
     @Autowired
@@ -37,35 +38,43 @@ public class CartController {
 
     @PostMapping(value = "/addItems")
     public ResponseEntity<Cart> addItemToCart(@RequestBody CartDTO cartDto) {
-
-        Cart cart = null;
-        if (cartDto.getCrtId() != null) {
-            cartDto = cartService.getCart(cartDto.getCrtId());
-            if (cartDto != null) {
-                if (!cartDto.getItemDTOList().isEmpty()) {
-                    for (ItemDTO itemDTO : cartDto.getItemDTOList()) {
-                        if (cartService.checkIfItemIsExist(cartDto.getCrtId(), itemDTO.getProductId())) {
-                            cartService.changeItemQuantity(cartDto.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
+        {
+            CartDTO cartDTO = null;
+            Cart cart = null;
+            if (cartDto.getCrtId() != null) {
+                cartDTO = cartService.getCart(cartDto.getCrtId());
+                if (cartDTO != null) {
+                    if (!cartDTO.getItemDTOList().isEmpty()) {
+                        for (ItemDTO itemDTO : cartDto.getItemDTOList()) {
+                            if (cartService.checkIfItemIsExist(cartDto.getCrtId(), itemDTO.getProductId())) {
+                                cartService.changeItemQuantity(cartDto.getCrtId(), itemDTO.getProductId(), itemDTO.getQuantity());
+                            } else {
+                                // add the item to that cart
+                                Item item = cartService.addItemToExistingCart(itemDTO, cartDto.getCrtId());
+                            }
                         }
+                        return new ResponseEntity<Cart>(
+                                cart,
+                                HttpStatus.CREATED);
                     }
                 }
 
+            } else {
 
+                cartService.addItemToCart(cartDto);
+                return new ResponseEntity<Cart>(
+                        cart,
+                        HttpStatus.CREATED);
             }
-        } else {
-
-            cartService.addItemToCart(cartDto);
             return new ResponseEntity<Cart>(
-                    cart,
-                    HttpStatus.CREATED);
+                    headerGenerator.getHeadersForError(),
+                    HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Cart>(
-                headerGenerator.getHeadersForError(),
-                HttpStatus.BAD_REQUEST);
     }
 
 
-    @DeleteMapping(value = "/removeItems", params = {"productId", "cartId"})
+
+        @DeleteMapping(value = "/removeItems", params = {"productId", "cartId"})
     public ResponseEntity<Void> removeItemFromCart(
             @RequestParam("productId") Long productId,
             @RequestParam("cartId") Long cartId) {
