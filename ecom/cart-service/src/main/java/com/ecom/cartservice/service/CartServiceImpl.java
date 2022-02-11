@@ -88,7 +88,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void changeItemQuantity(Long cartId, Long productId, Integer quantity) {
         Optional<Cart> cartOpt = cartRepository.findById(cartId);
-        Cart cart =cartOpt.get();
+        Cart cart = cartOpt.get();
         CartDTO cartDTO = new CartDTO();
         for (Item item : cart.getItems()) {
             if ((item.getProductId()).equals(productId)) {
@@ -117,14 +117,15 @@ public class CartServiceImpl implements CartService {
     @Override
     public boolean checkIfItemIsExist(Long cartId, Long productId) {
         Item item = (Item) itemRepository.findByCartIdandProductId(cartId, productId);
-        if ((item.getProductId()).equals(productId)) {
+        if(item!=null){
+            if ((item.getProductId()).equals(productId)) {
                 return true;
-
+            }
         }
+
         return false;
 
     }
-
 //    @Override
 //    public List<Item> getAllItemsFromCart(String cartId) {
 //        List<Item> items = (List) cartRedisRepository.getCart(cartId, Item.class);
