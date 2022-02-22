@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

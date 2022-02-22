@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table (name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User {
+public class User  extends Auditable{
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)

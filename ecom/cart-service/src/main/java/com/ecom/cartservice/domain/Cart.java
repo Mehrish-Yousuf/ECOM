@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="cart")
-public class Cart {
+public class Cart extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

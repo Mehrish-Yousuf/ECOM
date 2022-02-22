@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "items")
 @EqualsAndHashCode
-public class Item {
+public class Item  extends Auditable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

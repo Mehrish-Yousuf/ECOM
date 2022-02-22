@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "inventory")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ProductInventory {
+public class ProductInventory extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
